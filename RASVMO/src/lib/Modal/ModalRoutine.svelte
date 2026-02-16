@@ -85,7 +85,7 @@
                 nom_routine: currentRoutine.nom_routine,
                 description: currentRoutine.description_routine,
                 frequence: currentRoutine.libelle_frequence,
-                date_execution: currentRoutine.date_execution,
+                date_execution: new Date().toISOString(),
                 commentaire: commentaire,
                 image: image
             };

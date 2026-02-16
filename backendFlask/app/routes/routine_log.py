@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from app.utils.logger import setup_logger
 from app.models.routine_log import Routine_Log
+from app.models.routine import Routine
 
 # Création du Blueprint
 bp = Blueprint("routine_log", __name__)
@@ -33,6 +34,8 @@ def add_routinelog():
     try:
         data = request.get_json()
         logger.info(f"Données reçues pour add_routinelog: {data}")
+
+        # Tâche 1 : Ajouter la routine log à la base de données
         Routine_Log.add_routine_log(
             nom_routine=data.get('nom_routine'),
             description=data.get('description'),
@@ -42,7 +45,15 @@ def add_routinelog():
             image=data.get('image')
         )
         logger.info("Routine log ajoutée avec succès")
-        return jsonify({"message": "Routine log ajoutée avec succès"}), 201
+
+        # Tâche 2 : Mettre à jour la routine correspondante dans la table Routine avec la dernière date d'exécution
+        Routine.update_execution_info(
+            nom_routine=data.get('nom_routine'),
+            commentaire=data.get('commentaire'),
+            date_execution=data.get('date_execution')
+        )
+        logger.info("Routine mise à jour avec succès")
+        return jsonify({"message": "Routine log ajoutée et routine mise à jour avec succès"}), 201
     except Exception as e:
         logger.exception(f"Erreur lors de add_routinelog: {str(e)}")
         return jsonify({"error": str(e)}), 500

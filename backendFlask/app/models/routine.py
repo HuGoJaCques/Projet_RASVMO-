@@ -161,6 +161,18 @@ class Routine(db.Model):
         db.session.commit()
         return routine
     
+    #Mehode qui modifie le commentaire et la date de la derniere execution d'une routine
+    @classmethod
+    def update_execution_info(cls, nom_routine, commentaire, date_execution):
+        routine = cls.query.filter_by(nom_routine=nom_routine).first()
+        if not routine:
+            raise RoutineNotFoundError(f"Routine avec nom {nom_routine} introuvable")
+        
+        routine.last_commentaire = commentaire
+        routine.last_date_execution = date_execution
+        db.session.commit()
+        return routine
+    
     #Methode qui supprime une routine
     @classmethod
     def supprimer_routine(cls, routine_id):
