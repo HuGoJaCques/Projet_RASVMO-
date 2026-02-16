@@ -1,0 +1,40 @@
+# Python / Flask 
+backendFlask/.venv/
+backendFlask/venv/
+backendFlask/env/
+backendFlask/__pycache__/
+backendFlask/instance/
+backendFlask/migrations/
+backendFlask/.env
+backendFlask/logs/
+backendFlask/uploads/
+backendFlask/.pytest_cache/
+backendFlask/flask_offline/
+backendFlask/*.db
+backendFlask/*.sqlite
+*.py[cod]
+*$py.class
+
+# Node.js / Svelte
+RASVMO/node_modules/
+RASVMO/build/
+RASVMO/dist/
+RASVMO/.env
+RASVMO/.env.local
+RASVMO/.svelte-kit/
+RASVMO/package-lock.json
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# LOG files
+*.log
+npm-debug.log*
