@@ -5,9 +5,19 @@ import { addAlert } from "./alert";
 
 export const routinesDay = writable([]);
 export const routinesFrequency = writable([]);
+export const isLoadingRoutines = writable(true);
 
 export async function loadRoutinesDay() {
-  routinesDay.set(await getRoutinesJour());
+  isLoadingRoutines.set(true);
+  try{
+      const data = await getRoutinesJour();
+      routinesDay.set(data);
+  } catch(e) {
+    console.error('Erreur lors du chargement des routines du jour', e);
+    addAlert('Erreur lors du chargement des routines du jour', 'error');
+  } finally {
+    isLoadingRoutines.set(false);
+  }
 }
 
 export async function loadRoutinesFrequency(freq) {

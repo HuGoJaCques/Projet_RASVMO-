@@ -9,8 +9,7 @@
     import { handleValidation } from "../utils/validationUtils";
 
     let { showModalRoutine = $bindable() } = $props();
-    let dialog;
-     
+    let dialog;     
     let commentaire = $state('');
     let image = $state("");
 
@@ -25,24 +24,25 @@
     let completedCount = $state(0); 
 
     //Variable globale windows
-    let windowObjectReference = $state(null);
-    
+    let windowObjectReference = null;    
+
     //fonction pour ouvrir le lien
     function openRoutineLink(routine){   
         if(!routine || !routine.lien) return;
         if(getLinkType(routine.lien) === "windows") {
-            console.log("Opening Windows link: ", routine.lien);        
+            // Copier le chemin dans le presse-papiers
+            navigator.clipboard.writeText(routine.lien).then(() => {
+                addAlert("Chemin copié dans le presse-papier !", "info");
+            }).catch(err => {
+                console.error("Erreur lors de la copie du lien dans le presse-papiers :", err);
+                addAlert("Impossible de copier le lien dans le presse-papiers.", "error");
+            });      
         }
         else if(getLinkType(routine.lien) === "web") {
-            if(windowObjectReference && !windowObjectReference.closed){
-                windowObjectReference.close();
-            }
-            windowObjectReference = window.open(
-                routine.lien,
-                "_blank"
-            )
-        }
-    }
+            windowObjectReference = window.open(routine.lien, 'LienRoutine');
+            if (windowObjectReference) windowObjectReference.focus();
+        }    
+    }    
 
     $effect(() => {
         if (!showModalRoutine){

@@ -5,7 +5,7 @@
     import ModalRoutine from "../Modal/ModalRoutine.svelte";
     import { onMount } from "svelte";
     import { getFrequences } from "../api/frequences";
-    import { loadRoutinesDay, loadRoutinesFrequency, routinesDay, routinesFrequency } from "../stores/routines";
+    import { loadRoutinesDay, loadRoutinesFrequency, routinesDay, routinesFrequency, isLoadingRoutines } from "../stores/routines";
     import Alert from "../Components/Alert/Alert.svelte";
 
     let selectedOption =$state(null);
@@ -69,7 +69,11 @@
         <Tables data={$routinesFrequency} ongletRoutine={true} />
     {/if}
 {:else}
-    {#if $routinesDay.length === 0}
+    {#if $isLoadingRoutines}
+        <span class="flex justify-center w-full">
+            <b>Chargement des routines...</b>
+        </span>
+    {:else if $routinesDay.length === 0}
         <span class="flex justify-center w-full">
             <b>Aucune routine n'est prévue pour aujourd'hui</b>
         </span>
